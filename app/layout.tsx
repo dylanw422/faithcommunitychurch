@@ -5,6 +5,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { Analytics } from "@vercel/analytics/next";
 // import { AppSidebar } from "@/components/app-sidebar";
 
 const geistSans = Geist({
@@ -52,6 +53,7 @@ export default function RootLayout({
             <Footer />
           </main>
         </SidebarProvider>
+        <Analytics />
       </body>
     </html>
   );
