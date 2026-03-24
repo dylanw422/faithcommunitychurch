@@ -16,8 +16,8 @@ export default function Hero() {
       className="py-12"
     >
       <div className="flex w-full justify-evenly py-12 text-sm md:text-xl font-bold">
-        <h1>LAKE CHARLES, LA</h1>
-        <h1>SUNDAYS AT 5:00 PM</h1>
+        <h1>MOSS BLUFF, LA</h1>
+        <h1>SUNDAYS AT 10:00 AM</h1>
       </div>
       <div
         className={`text-[60px] sm:text-[90px] md:text-[120px] lg:text-[150px] xl:text-[180px] ${roboto.className} font-black leading-none text-center flex flex-col items-center justify-center`}

@@ -4,7 +4,7 @@ import { Facebook } from "lucide-react";
 const details = [
   {
     title: "ADDRESS",
-    description: "1226 Kirkman Street, Lake Charles, LA 70601",
+    description: "1999 N Perkins Ferry Rd, Lake Charles, LA 70611",
   },
   {
     title: "CONTACT US",
