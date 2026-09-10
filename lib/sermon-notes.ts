@@ -1,9 +1,10 @@
 import starterNotes from "@/content/sermon-notes.json";
+import { parseScriptureReference, type ScriptureReference } from "@/lib/bible";
 
 export type SermonPoint = {
   id: string;
   title: string;
-  scripture: string;
+  scripture: ScriptureReference | null;
   content: string;
   reflection: string;
 };
@@ -12,7 +13,7 @@ export type SermonNotes = {
   title: string;
   date: string;
   speaker: string;
-  scripture: string;
+  scripture: ScriptureReference | null;
   keyIdea: string;
   introduction: string;
   points: SermonPoint[];
@@ -33,6 +34,10 @@ function cleanOptional(value: unknown, maxLength: number) {
   return cleaned.length <= maxLength ? cleaned : null;
 }
 
+function isBlankScripture(value: unknown) {
+  return value === undefined || value === null || value === "";
+}
+
 export function parseSermonNotes(value: unknown): SermonNotes | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
 
@@ -40,7 +45,7 @@ export function parseSermonNotes(value: unknown): SermonNotes | null {
   const title = cleanRequired(input.title, 140);
   const date = cleanRequired(input.date, 10);
   const speaker = cleanRequired(input.speaker, 120);
-  const scripture = cleanOptional(input.scripture, 180);
+  const scripture = parseScriptureReference(input.scripture);
   const keyIdea = cleanRequired(input.keyIdea, 600);
   const introduction = cleanOptional(input.introduction, 5000);
   const closing = cleanOptional(input.closing, 5000);
@@ -51,7 +56,7 @@ export function parseSermonNotes(value: unknown): SermonNotes | null {
     !date ||
     !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
     !speaker ||
-    scripture === null ||
+    (!scripture && !isBlankScripture(input.scripture)) ||
     !keyIdea ||
     introduction === null ||
     closing === null ||
@@ -72,7 +77,7 @@ export function parseSermonNotes(value: unknown): SermonNotes | null {
     const point = valuePoint as Record<string, unknown>;
     const id = cleanRequired(point.id, 100);
     const pointTitle = cleanRequired(point.title, 180);
-    const pointScripture = cleanOptional(point.scripture, 180);
+    const pointScripture = parseScriptureReference(point.scripture);
     const content = cleanRequired(point.content, 8000);
     const reflection = cleanOptional(point.reflection, 1200);
 
@@ -81,7 +86,7 @@ export function parseSermonNotes(value: unknown): SermonNotes | null {
       !/^[a-zA-Z0-9_-]+$/.test(id) ||
       ids.has(id) ||
       !pointTitle ||
-      pointScripture === null ||
+      (!pointScripture && !isBlankScripture(point.scripture)) ||
       !content ||
       reflection === null
     ) {

@@ -1,5 +1,11 @@
 import type { SermonNotes } from "@/lib/sermon-notes";
 import { textBlocks } from "@/lib/sermon-notes";
+import {
+  formatScriptureReference,
+  scriptureReferenceKey,
+  type BiblePassage,
+  type ScriptureReference,
+} from "@/lib/bible";
 
 function formatSermonDate(value: string) {
   const [year, month, day] = value.split("-").map(Number);
@@ -20,7 +26,39 @@ function Paragraphs({ value }: { value: string }) {
   ));
 }
 
-export default function SermonNotesView({ notes }: { notes: SermonNotes }) {
+function ScriptureQuote({
+  reference,
+  passage,
+}: {
+  reference: ScriptureReference;
+  passage?: BiblePassage;
+}) {
+  return (
+    <div>
+      <p className="text-xs font-black tracking-[0.14em] text-black/50 uppercase">
+        {formatScriptureReference(reference)} · NIV
+      </p>
+      {passage ? (
+        <>
+          <blockquote className="mt-3 text-lg font-bold leading-7 tracking-[-0.015em] sm:text-xl sm:leading-8">
+            {passage.content}
+          </blockquote>
+          {passage.copyright ? (
+            <p className="mt-3 max-w-3xl text-[10px] leading-4 text-black/40">{passage.copyright}</p>
+          ) : null}
+        </>
+      ) : null}
+    </div>
+  );
+}
+
+export default function SermonNotesView({
+  notes,
+  passages = {},
+}: {
+  notes: SermonNotes;
+  passages?: Record<string, BiblePassage>;
+}) {
   return (
     <article className="bg-white text-black">
       <header className="px-4 pb-16 pt-10 sm:px-8 md:pb-24 md:pt-16">
@@ -34,9 +72,12 @@ export default function SermonNotesView({ notes }: { notes: SermonNotes }) {
         </h1>
 
         {notes.scripture ? (
-          <p className="border-t border-black pt-5 text-sm font-bold tracking-[0.08em] uppercase sm:text-base">
-            {notes.scripture}
-          </p>
+          <div className="border-t border-black pt-5">
+            <ScriptureQuote
+              reference={notes.scripture}
+              passage={passages[scriptureReferenceKey(notes.scripture)]}
+            />
+          </div>
         ) : null}
       </header>
 
@@ -70,13 +111,24 @@ export default function SermonNotesView({ notes }: { notes: SermonNotes }) {
                   {point.title}
                 </h2>
                 {point.scripture ? (
-                  <p className="mt-4 text-xs font-black tracking-[0.14em] text-black/50 uppercase">
-                    {point.scripture}
-                  </p>
+                  <div className="mt-4 md:hidden">
+                    <ScriptureQuote
+                      reference={point.scripture}
+                      passage={passages[scriptureReferenceKey(point.scripture)]}
+                    />
+                  </div>
                 ) : null}
               </div>
 
               <div>
+                {point.scripture ? (
+                  <div className="mb-7 hidden md:block">
+                    <ScriptureQuote
+                      reference={point.scripture}
+                      passage={passages[scriptureReferenceKey(point.scripture)]}
+                    />
+                  </div>
+                ) : null}
                 <div className="space-y-5 text-base leading-7 sm:text-lg">
                   <Paragraphs value={point.content} />
                 </div>

@@ -13,6 +13,7 @@ import {
   Trash2,
 } from "lucide-react";
 import SermonNotesView from "@/components/sermon-notes-view";
+import ScriptureSelect from "@/components/scripture-select";
 import type { SermonNotes, SermonPoint } from "@/lib/sermon-notes";
 
 const inputClassName =
@@ -33,7 +34,7 @@ function createPoint(): SermonPoint {
   return {
     id: `point-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     title: "",
-    scripture: "",
+    scripture: null,
     content: "",
     reflection: "",
   };
@@ -57,7 +58,7 @@ export default function SermonEditor({
     setMessage("");
   }
 
-  function updatePoint(id: string, field: keyof SermonPoint, value: string) {
+  function updatePoint<K extends keyof SermonPoint>(id: string, field: K, value: SermonPoint[K]) {
     setNotes((current) => ({
       ...current,
       points: current.points.map((point) =>
@@ -192,16 +193,14 @@ export default function SermonEditor({
                   className={inputClassName}
                 />
               </label>
-              <label className="text-xs font-black tracking-[0.14em] uppercase sm:col-span-2">
-                Main Scripture
-                <input
-                  maxLength={180}
+              <div className="text-xs font-black tracking-[0.14em] uppercase sm:col-span-2">
+                Main Scripture <span className="text-black/40">— optional</span>
+                <ScriptureSelect
+                  idPrefix="main-scripture"
                   value={notes.scripture}
-                  placeholder="Example: John 3:16–17"
-                  onChange={(event) => updateField("scripture", event.target.value)}
-                  className={inputClassName}
+                  onChange={(reference) => updateField("scripture", reference)}
                 />
-              </label>
+              </div>
               <label className="text-xs font-black tracking-[0.14em] uppercase sm:col-span-2">
                 Central idea
                 <textarea
@@ -286,17 +285,14 @@ export default function SermonEditor({
                         className={inputClassName}
                       />
                     </label>
-                    <label className="text-xs font-black tracking-[0.14em] uppercase">
+                    <div className="text-xs font-black tracking-[0.14em] uppercase sm:col-span-2">
                       Scripture <span className="text-black/40">— optional</span>
-                      <input
-                        maxLength={180}
+                      <ScriptureSelect
+                        idPrefix={`point-${point.id}-scripture`}
                         value={point.scripture}
-                        onChange={(event) =>
-                          updatePoint(point.id, "scripture", event.target.value)
-                        }
-                        className={inputClassName}
+                        onChange={(reference) => updatePoint(point.id, "scripture", reference)}
                       />
-                    </label>
+                    </div>
                     <label className="text-xs font-black tracking-[0.14em] uppercase sm:col-span-2">
                       Notes
                       <textarea

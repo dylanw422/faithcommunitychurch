@@ -6,6 +6,7 @@ import {
 } from "@/lib/github-sermon-notes";
 import { getSermonAdminSession } from "@/lib/sermon-auth";
 import { parseSermonNotes } from "@/lib/sermon-notes";
+import { getSermonPassages, YouVersionError } from "@/lib/youversion";
 
 export const runtime = "nodejs";
 
@@ -67,9 +68,13 @@ export async function PUT(request: Request) {
   const notes = { ...parsedNotes, updatedAt: new Date().toISOString() };
 
   try {
+    await getSermonPassages(notes, true);
     const nextSha = await publishSermonNotes(notes, sha as string | null);
     return NextResponse.json({ ok: true, notes, sha: nextSha });
   } catch (error) {
+    if (error instanceof YouVersionError) {
+      return NextResponse.json({ error: error.message }, { status: error.status });
+    }
     return errorResponse(error);
   }
 }

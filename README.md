@@ -47,10 +47,16 @@ Copy `.env.example` to `.env.local`, then configure these values locally and in 
   repository with **Contents: Read and write** permission.
 - `SERMON_NOTES_GITHUB_BRANCH`: the Vercel production branch, normally `main`.
 - `SERMON_NOTES_GITHUB_PATH`: leave as `content/sermon-notes.json` unless the file moves.
+- `YOUVERSION_APP_KEY`: the App Key from YouVersion Platform. Enable access to Bible version 111
+  (NIV) and accept its publisher license in the YouVersion dashboard.
 
 Keep the GitHub token, SMTP password, and auth secret in environment variables only. Never commit
 them. The GitHub account that creates the token should also be connected to the Vercel project so
 its commits trigger production deployments.
+
+The app stores Bible book/chapter navigation metadata in `content/bible-metadata.json`. NIV verse
+text is fetched from YouVersion's licensed API when an editor selects a verse and when the public
+page is rendered; the copyrighted NIV text is intentionally not committed to the repository.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
