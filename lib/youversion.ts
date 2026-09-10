@@ -114,7 +114,7 @@ export async function getNivPassage(reference: ScriptureReference): Promise<Bibl
 }
 
 export function getSermonScriptureReferences(notes: SermonNotes) {
-  const references = [notes.scripture, ...notes.points.map((point) => point.scripture)].filter(
+  const references = [notes.scripture, ...notes.points.flatMap((point) => point.scriptures)].filter(
     (reference): reference is ScriptureReference => reference !== null
   );
   return [...new Map(references.map((reference) => [scriptureReferenceKey(reference), reference])).values()];

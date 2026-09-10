@@ -55,7 +55,7 @@ them. The GitHub account that creates the token should also be connected to the 
 its commits trigger production deployments.
 
 The app stores Bible book/chapter navigation metadata in `content/bible-metadata.json`. NIV verse
-text is fetched from YouVersion's licensed API when an editor selects a verse and when the public
+text is fetched from YouVersion's licensed API when an editor selects a verse or passage and when the public
 page is rendered; the copyrighted NIV text is intentionally not committed to the repository.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

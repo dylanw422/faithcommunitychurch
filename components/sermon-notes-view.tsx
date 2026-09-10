@@ -47,6 +47,26 @@ function ScriptureQuote({
   );
 }
 
+function ScriptureQuotes({
+  references,
+  passages,
+}: {
+  references: ScriptureReference[];
+  passages: Record<string, BiblePassage>;
+}) {
+  return references.map((reference, index) => (
+    <div
+      key={scriptureReferenceKey(reference)}
+      className={index ? "mt-6 border-t border-black/20 pt-6" : ""}
+    >
+      <ScriptureQuote
+        reference={reference}
+        passage={passages[scriptureReferenceKey(reference)]}
+      />
+    </div>
+  ));
+}
+
 export default function SermonNotesView({
   notes,
   passages = {},
@@ -107,23 +127,17 @@ export default function SermonNotesView({
                 <h2 className="text-3xl font-black leading-[0.95] tracking-[-0.04em] sm:text-5xl">
                   {point.title}
                 </h2>
-                {point.scripture ? (
+                {point.scriptures.length ? (
                   <div className="mt-4 md:hidden">
-                    <ScriptureQuote
-                      reference={point.scripture}
-                      passage={passages[scriptureReferenceKey(point.scripture)]}
-                    />
+                    <ScriptureQuotes references={point.scriptures} passages={passages} />
                   </div>
                 ) : null}
               </div>
 
               <div>
-                {point.scripture ? (
+                {point.scriptures.length ? (
                   <div className="mb-7 hidden md:block">
-                    <ScriptureQuote
-                      reference={point.scripture}
-                      passage={passages[scriptureReferenceKey(point.scripture)]}
-                    />
+                    <ScriptureQuotes references={point.scriptures} passages={passages} />
                   </div>
                 ) : null}
                 <div className="space-y-5 text-base leading-7 sm:text-lg">

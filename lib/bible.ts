@@ -10,6 +10,7 @@ export type ScriptureReference = {
   bookUsfm: string;
   chapter: number;
   verse: number;
+  endVerse: number;
 };
 
 export type BiblePassage = {
@@ -35,14 +36,25 @@ export function parseScriptureReference(value: unknown): ScriptureReference | nu
     input.versionId !== NIV_BIBLE_ID ||
     input.version !== NIV_ABBREVIATION ||
     !Number.isInteger(input.chapter) ||
-    !Number.isInteger(input.verse)
+    !Number.isInteger(input.verse) ||
+    (input.endVerse !== undefined && !Number.isInteger(input.endVerse))
   ) {
     return null;
   }
 
   const chapter = input.chapter as number;
   const verse = input.verse as number;
-  if (chapter < 1 || chapter > book.chapters || verse < 1 || verse > 176) return null;
+  const endVerse = (input.endVerse ?? verse) as number;
+  if (
+    chapter < 1 ||
+    chapter > book.chapters ||
+    verse < 1 ||
+    verse > 176 ||
+    endVerse < verse ||
+    endVerse > 176
+  ) {
+    return null;
+  }
 
   return {
     versionId: NIV_BIBLE_ID,
@@ -51,13 +63,16 @@ export function parseScriptureReference(value: unknown): ScriptureReference | nu
     bookUsfm: book.usfm,
     chapter,
     verse,
+    endVerse,
   };
 }
 
 export function scriptureReferenceKey(reference: ScriptureReference) {
-  return `${reference.bookUsfm}.${reference.chapter}.${reference.verse}`;
+  const ending = reference.endVerse === reference.verse ? "" : `-${reference.endVerse}`;
+  return `${reference.bookUsfm}.${reference.chapter}.${reference.verse}${ending}`;
 }
 
 export function formatScriptureReference(reference: ScriptureReference) {
-  return `${reference.book} ${reference.chapter}:${reference.verse}`;
+  const ending = reference.endVerse === reference.verse ? "" : `–${reference.endVerse}`;
+  return `${reference.book} ${reference.chapter}:${reference.verse}${ending}`;
 }

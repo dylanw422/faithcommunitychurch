@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import SermonNotesView from "@/components/sermon-notes-view";
 import ScriptureSelect from "@/components/scripture-select";
+import MultipleScriptureSelect from "@/components/multiple-scripture-select";
 import type { SermonNotes, SermonPoint } from "@/lib/sermon-notes";
 
 const inputClassName =
@@ -34,7 +35,7 @@ function createPoint(): SermonPoint {
   return {
     id: `point-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     title: "",
-    scripture: null,
+    scriptures: [],
     content: "",
     reflection: "",
   };
@@ -231,7 +232,7 @@ export default function SermonEditor({
               <div>
                 <p className="text-xs font-black tracking-[0.2em] uppercase">Message points</p>
                 <p className="mt-2 max-w-lg text-sm leading-6 text-black/55">
-                  Add each main point in order. Scripture and reflection prompts are optional.
+                  Add each main point in order. Scripture passages and reflection prompts are optional.
                 </p>
               </div>
               <span className="text-xs font-black tabular-nums">{notes.points.length}/12</span>
@@ -286,11 +287,13 @@ export default function SermonEditor({
                       />
                     </label>
                     <div className="text-xs font-black tracking-[0.14em] uppercase sm:col-span-2">
-                      Scripture <span className="text-black/40">— optional</span>
-                      <ScriptureSelect
-                        idPrefix={`point-${point.id}-scripture`}
-                        value={point.scripture}
-                        onChange={(reference) => updatePoint(point.id, "scripture", reference)}
+                      Scriptures <span className="text-black/40">— optional</span>
+                      <MultipleScriptureSelect
+                        idPrefix={`point-${point.id}-scriptures`}
+                        values={point.scriptures}
+                        onChange={(references) =>
+                          updatePoint(point.id, "scriptures", references)
+                        }
                       />
                     </div>
                     <label className="text-xs font-black tracking-[0.14em] uppercase sm:col-span-2">

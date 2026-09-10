@@ -8,7 +8,8 @@
     "book": "Leviticus",
     "bookUsfm": "LEV",
     "chapter": 1,
-    "verse": 5
+    "verse": 5,
+    "endVerse": 5
   },
   "keyIdea": "God's Glory",
   "introduction": "",
@@ -16,14 +17,17 @@
     {
       "id": "todays-message",
       "title": "God's Creation",
-      "scripture": {
-        "versionId": 111,
-        "version": "NIV",
-        "book": "Genesis",
-        "bookUsfm": "GEN",
-        "chapter": 1,
-        "verse": 1
-      },
+      "scriptures": [
+        {
+          "versionId": 111,
+          "version": "NIV",
+          "book": "Genesis",
+          "bookUsfm": "GEN",
+          "chapter": 1,
+          "verse": 1,
+          "endVerse": 1
+        }
+      ],
       "content": "In the beginning...",
       "reflection": ""
     }

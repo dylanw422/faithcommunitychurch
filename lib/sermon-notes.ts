@@ -1,10 +1,14 @@
 import starterNotes from "@/content/sermon-notes.json";
-import { parseScriptureReference, type ScriptureReference } from "@/lib/bible";
+import {
+  parseScriptureReference,
+  scriptureReferenceKey,
+  type ScriptureReference,
+} from "@/lib/bible";
 
 export type SermonPoint = {
   id: string;
   title: string;
-  scripture: ScriptureReference | null;
+  scriptures: ScriptureReference[];
   content: string;
   reflection: string;
 };
@@ -77,16 +81,33 @@ export function parseSermonNotes(value: unknown): SermonNotes | null {
     const point = valuePoint as Record<string, unknown>;
     const id = cleanRequired(point.id, 100);
     const pointTitle = cleanRequired(point.title, 180);
-    const pointScripture = parseScriptureReference(point.scripture);
+    if (point.scriptures !== undefined && !Array.isArray(point.scriptures)) return null;
+    const scriptureInputs = Array.isArray(point.scriptures)
+      ? point.scriptures
+      : isBlankScripture(point.scripture)
+        ? []
+        : [point.scripture];
     const content = cleanRequired(point.content, 8000);
     const reflection = cleanOptional(point.reflection, 1200);
+
+    if (scriptureInputs.length > 8) return null;
+
+    const pointScriptures: ScriptureReference[] = [];
+    const scriptureKeys = new Set<string>();
+    for (const scriptureInput of scriptureInputs) {
+      const pointScripture = parseScriptureReference(scriptureInput);
+      if (!pointScripture) return null;
+      const key = scriptureReferenceKey(pointScripture);
+      if (scriptureKeys.has(key)) return null;
+      scriptureKeys.add(key);
+      pointScriptures.push(pointScripture);
+    }
 
     if (
       !id ||
       !/^[a-zA-Z0-9_-]+$/.test(id) ||
       ids.has(id) ||
       !pointTitle ||
-      (!pointScripture && !isBlankScripture(point.scripture)) ||
       !content ||
       reflection === null
     ) {
@@ -97,7 +118,7 @@ export function parseSermonNotes(value: unknown): SermonNotes | null {
     points.push({
       id,
       title: pointTitle,
-      scripture: pointScripture,
+      scriptures: pointScriptures,
       content,
       reflection,
     });

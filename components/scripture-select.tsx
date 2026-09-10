@@ -23,6 +23,9 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
   const [bookUsfm, setBookUsfm] = useState(value?.bookUsfm ?? "");
   const [chapter, setChapter] = useState(value?.chapter.toString() ?? "");
   const [verse, setVerse] = useState(value?.verse.toString() ?? "");
+  const [endVerse, setEndVerse] = useState(
+    value && value.endVerse !== value.verse ? value.endVerse.toString() : ""
+  );
   const [verses, setVerses] = useState<number[]>([]);
   const [loadingVerses, setLoadingVerses] = useState(false);
   const [passage, setPassage] = useState<BiblePassage | null>(null);
@@ -98,6 +101,7 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
     setBookUsfm("");
     setChapter("");
     setVerse("");
+    setEndVerse("");
     setVerses([]);
     setPassage(null);
     setError("");
@@ -106,8 +110,11 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
 
   return (
     <div className="mt-2 border border-black p-3 sm:p-4">
-      <div className="grid gap-3 sm:grid-cols-[1.4fr_0.8fr_0.8fr]">
-        <label htmlFor={`${idPrefix}-book`} className="text-[10px] font-black tracking-[0.12em] uppercase">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-[1.35fr_0.65fr_0.8fr_0.8fr]">
+        <label
+          htmlFor={`${idPrefix}-book`}
+          className="col-span-2 text-[10px] font-black tracking-[0.12em] uppercase sm:col-span-1"
+        >
           Book
           <select
             id={`${idPrefix}-book`}
@@ -116,6 +123,7 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
               setBookUsfm(event.target.value);
               setChapter("");
               setVerse("");
+              setEndVerse("");
               setVerses([]);
               setPassage(null);
               setError("");
@@ -132,7 +140,10 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
           </select>
         </label>
 
-        <label htmlFor={`${idPrefix}-chapter`} className="text-[10px] font-black tracking-[0.12em] uppercase">
+        <label
+          htmlFor={`${idPrefix}-chapter`}
+          className="text-[10px] font-black tracking-[0.12em] uppercase"
+        >
           Chapter
           <select
             id={`${idPrefix}-chapter`}
@@ -141,6 +152,7 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
             onChange={(event) => {
               setChapter(event.target.value);
               setVerse("");
+              setEndVerse("");
               setPassage(null);
               setError("");
               onChange(null);
@@ -158,8 +170,11 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
           </select>
         </label>
 
-        <label htmlFor={`${idPrefix}-verse`} className="text-[10px] font-black tracking-[0.12em] uppercase">
-          Verse
+        <label
+          htmlFor={`${idPrefix}-verse`}
+          className="text-[10px] font-black tracking-[0.12em] uppercase"
+        >
+          Start verse
           <select
             id={`${idPrefix}-verse`}
             value={verse}
@@ -167,6 +182,7 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
             onChange={(event) => {
               const nextVerse = event.target.value;
               setVerse(nextVerse);
+              setEndVerse("");
               setPassage(null);
               setError("");
 
@@ -182,6 +198,7 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
                 bookUsfm: book.usfm,
                 chapter: Number(chapter),
                 verse: Number(nextVerse),
+                endVerse: Number(nextVerse),
               });
             }}
             className={selectClassName}
@@ -192,6 +209,49 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
                 {number}
               </option>
             ))}
+          </select>
+        </label>
+
+        <label
+          htmlFor={`${idPrefix}-end-verse`}
+          className="col-span-2 text-[10px] font-black tracking-[0.12em] uppercase sm:col-span-1"
+        >
+          End verse <span className="text-black/40">— optional</span>
+          <select
+            id={`${idPrefix}-end-verse`}
+            value={endVerse}
+            disabled={!book || !chapter || !verse || loadingVerses || !verses.length}
+            onChange={(event) => {
+              const nextEndVerse = event.target.value;
+              setEndVerse(nextEndVerse);
+              setPassage(null);
+              setError("");
+
+              if (!book || !chapter || !verse) {
+                onChange(null);
+                return;
+              }
+
+              onChange({
+                versionId: NIV_BIBLE_ID,
+                version: NIV_ABBREVIATION,
+                book: book.name,
+                bookUsfm: book.usfm,
+                chapter: Number(chapter),
+                verse: Number(verse),
+                endVerse: nextEndVerse ? Number(nextEndVerse) : Number(verse),
+              });
+            }}
+            className={selectClassName}
+          >
+            <option value="">Single verse</option>
+            {verses
+              .filter((number) => number > Number(verse))
+              .map((number) => (
+                <option key={number} value={number}>
+                  {number}
+                </option>
+              ))}
           </select>
         </label>
       </div>
