@@ -2,18 +2,32 @@
   "title": "Sunday Sermon Notes",
   "date": "2026-09-13",
   "speaker": "Pastor Melvin Stringfield",
-  "scripture": null,
-  "keyIdea": "Come ready to hear, reflect, and respond to what God is saying.",
+  "scripture": {
+    "versionId": 111,
+    "version": "NIV",
+    "book": "Leviticus",
+    "bookUsfm": "LEV",
+    "chapter": 1,
+    "verse": 5
+  },
+  "keyIdea": "God's Glory",
   "introduction": "",
   "points": [
     {
       "id": "todays-message",
-      "title": "Today’s Message",
-      "scripture": null,
-      "content": "Follow along during the message and return here throughout the week.",
+      "title": "God's Creation",
+      "scripture": {
+        "versionId": 111,
+        "version": "NIV",
+        "book": "Genesis",
+        "bookUsfm": "GEN",
+        "chapter": 1,
+        "verse": 1
+      },
+      "content": "In the beginning...",
       "reflection": ""
     }
   ],
   "closing": "",
-  "updatedAt": "2026-09-09T12:00:00.000Z"
+  "updatedAt": "2026-09-10T02:57:45.501Z"
 }
