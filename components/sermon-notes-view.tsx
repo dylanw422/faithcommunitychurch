@@ -154,7 +154,7 @@ export default function SermonNotesView({
         ) : null}
 
         {copyright ? (
-          <footer className="mt-16 border-t border-black pt-5">
+          <footer className="mt-5">
             <p className="max-w-4xl text-[10px] leading-4 text-black/45">{copyright}</p>
           </footer>
         ) : null}
