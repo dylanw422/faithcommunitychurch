@@ -39,14 +39,9 @@ function ScriptureQuote({
         {formatScriptureReference(reference)} · NIV
       </p>
       {passage ? (
-        <>
-          <blockquote className="mt-3 text-lg font-bold leading-7 tracking-[-0.015em] sm:text-xl sm:leading-8">
-            {passage.content}
-          </blockquote>
-          {passage.copyright ? (
-            <p className="mt-3 max-w-3xl text-[10px] leading-4 text-black/40">{passage.copyright}</p>
-          ) : null}
-        </>
+        <blockquote className="mt-3 text-lg font-bold leading-7 tracking-[-0.015em] sm:text-xl sm:leading-8">
+          {passage.content}
+        </blockquote>
       ) : null}
     </div>
   );
@@ -59,6 +54,8 @@ export default function SermonNotesView({
   notes: SermonNotes;
   passages?: Record<string, BiblePassage>;
 }) {
+  const copyright = Object.values(passages).find((passage) => passage.copyright)?.copyright;
+
   return (
     <article className="bg-white text-black">
       <header className="px-4 pb-16 pt-10 sm:px-8 md:pb-24 md:pt-16">
@@ -154,6 +151,12 @@ export default function SermonNotesView({
               <Paragraphs value={notes.closing} />
             </div>
           </section>
+        ) : null}
+
+        {copyright ? (
+          <footer className="mt-16 border-t border-black pt-5">
+            <p className="max-w-4xl text-[10px] leading-4 text-black/45">{copyright}</p>
+          </footer>
         ) : null}
       </div>
     </article>
