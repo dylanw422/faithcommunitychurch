@@ -27,6 +27,31 @@ Add the same variables to the deployment environment. `CONNECT_FORM_FROM` must u
 SMTP account is permitted to send from. Mailbox providers such as Gmail or Microsoft may require an
 app password instead of the normal account password.
 
+## Sermon notes editor
+
+The public notes are available at `/sermon-notes`. Authorized team members can update them from a
+phone at `/admin/sermon-notes` using a passwordless email link. Publishing updates
+`content/sermon-notes.json` through GitHub, which preserves every revision and starts the connected
+Vercel production deployment.
+
+Copy `.env.example` to `.env.local`, then configure these values locally and in the Vercel project:
+
+- `SERMON_NOTES_ADMIN_EMAILS`: comma-separated email addresses allowed to use the editor.
+- `SERMON_NOTES_AUTH_SECRET`: at least 32 random characters. Generate one with
+  `openssl rand -base64 32`.
+- `SERMON_NOTES_SITE_URL`: the production origin, normally `https://fcclc.com`.
+- `SERMON_NOTES_EMAIL_FROM`: an SMTP-authorized sender such as `welcome@fcclc.com`.
+- `SERMON_NOTES_GITHUB_OWNER`: the GitHub account or organization that owns the repository.
+- `SERMON_NOTES_GITHUB_REPO`: the repository name.
+- `SERMON_NOTES_GITHUB_TOKEN`: a fine-grained GitHub personal access token restricted to this
+  repository with **Contents: Read and write** permission.
+- `SERMON_NOTES_GITHUB_BRANCH`: the Vercel production branch, normally `main`.
+- `SERMON_NOTES_GITHUB_PATH`: leave as `content/sermon-notes.json` unless the file moves.
+
+Keep the GitHub token, SMTP password, and auth secret in environment variables only. Never commit
+them. The GitHub account that creates the token should also be connected to the Vercel project so
+its commits trigger production deployments.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

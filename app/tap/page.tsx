@@ -22,6 +22,13 @@ const actions = [
     icon: HandHeart,
     external: true,
   },
+  {
+    label: "Sermon Notes",
+    description: "Follow along with today's message",
+    href: "/sermon-notes",
+    icon: NotebookPen,
+    external: false,
+  },
 ] as const;
 
 export default function TapPage() {
@@ -78,33 +85,6 @@ export default function TapPage() {
               );
             })}
 
-            <li>
-              <button
-                type="button"
-                className="group grid min-h-32 w-full grid-cols-[auto_1fr_auto] items-center gap-4 px-2 py-6 text-left transition-colors duration-300 hover:bg-neutral-100 focus-visible:bg-neutral-100 focus-visible:outline-none sm:gap-7 sm:px-5"
-              >
-                <span className="self-start pt-1 text-[10px] font-black tabular-nums tracking-widest">
-                  03
-                </span>
-                <span className="flex items-center gap-4 sm:gap-6">
-                  <span className="flex size-11 shrink-0 items-center justify-center border border-black bg-white transition-transform duration-300 group-hover:-rotate-3 sm:size-13">
-                    <NotebookPen className="size-5 sm:size-6" strokeWidth={1.7} />
-                  </span>
-                  <span>
-                    <span className="block text-3xl font-black tracking-[-0.04em] sm:text-5xl">
-                      Sermon Notes
-                    </span>
-                    <span className="mt-1 block max-w-sm text-xs font-medium text-black/60 sm:text-sm">
-                      Follow along with today&apos;s message
-                    </span>
-                  </span>
-                </span>
-                <ArrowUpRight
-                  className="size-6 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 sm:size-8"
-                  strokeWidth={1.7}
-                />
-              </button>
-            </li>
           </ul>
         </nav>
 
