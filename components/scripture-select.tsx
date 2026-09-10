@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import {
   NIV_ABBREVIATION,
   NIV_BIBLE_ID,
@@ -11,7 +12,10 @@ import {
 } from "@/lib/bible";
 
 const selectClassName =
-  "mt-2 h-13 w-full border border-black bg-white px-3 text-base font-normal normal-case tracking-normal outline-none transition-colors hover:bg-neutral-50 focus:bg-neutral-100 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-black/35";
+  "peer h-13 w-full appearance-none border border-black bg-white py-0 pr-11 pl-3 text-base font-normal normal-case tracking-normal outline-none transition-colors hover:bg-neutral-50 focus:bg-neutral-100 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-black/35";
+
+const selectIconClassName =
+  "pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-black/65 peer-disabled:text-black/25";
 
 type ScriptureSelectProps = {
   value: ScriptureReference | null;
@@ -116,28 +120,31 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
           className="col-span-2 text-[10px] font-black tracking-[0.12em] uppercase sm:col-span-1"
         >
           Book
-          <select
-            id={`${idPrefix}-book`}
-            value={bookUsfm}
-            onChange={(event) => {
-              setBookUsfm(event.target.value);
-              setChapter("");
-              setVerse("");
-              setEndVerse("");
-              setVerses([]);
-              setPassage(null);
-              setError("");
-              onChange(null);
-            }}
-            className={selectClassName}
-          >
-            <option value="">Select book</option>
-            {bibleBooks.map((candidate) => (
-              <option key={candidate.usfm} value={candidate.usfm}>
-                {candidate.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative mt-2">
+            <select
+              id={`${idPrefix}-book`}
+              value={bookUsfm}
+              onChange={(event) => {
+                setBookUsfm(event.target.value);
+                setChapter("");
+                setVerse("");
+                setEndVerse("");
+                setVerses([]);
+                setPassage(null);
+                setError("");
+                onChange(null);
+              }}
+              className={selectClassName}
+            >
+              <option value="">Select book</option>
+              {bibleBooks.map((candidate) => (
+                <option key={candidate.usfm} value={candidate.usfm}>
+                  {candidate.name}
+                </option>
+              ))}
+            </select>
+            <ChevronDown aria-hidden="true" className={selectIconClassName} />
+          </div>
         </label>
 
         <label
@@ -145,29 +152,32 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
           className="text-[10px] font-black tracking-[0.12em] uppercase"
         >
           Chapter
-          <select
-            id={`${idPrefix}-chapter`}
-            value={chapter}
-            disabled={!book}
-            onChange={(event) => {
-              setChapter(event.target.value);
-              setVerse("");
-              setEndVerse("");
-              setPassage(null);
-              setError("");
-              onChange(null);
-            }}
-            className={selectClassName}
-          >
-            <option value="">Select</option>
-            {book
-              ? Array.from({ length: book.chapters }, (_, index) => index + 1).map((number) => (
-                  <option key={number} value={number}>
-                    {number}
-                  </option>
-                ))
-              : null}
-          </select>
+          <div className="relative mt-2">
+            <select
+              id={`${idPrefix}-chapter`}
+              value={chapter}
+              disabled={!book}
+              onChange={(event) => {
+                setChapter(event.target.value);
+                setVerse("");
+                setEndVerse("");
+                setPassage(null);
+                setError("");
+                onChange(null);
+              }}
+              className={selectClassName}
+            >
+              <option value="">Select</option>
+              {book
+                ? Array.from({ length: book.chapters }, (_, index) => index + 1).map((number) => (
+                    <option key={number} value={number}>
+                      {number}
+                    </option>
+                  ))
+                : null}
+            </select>
+            <ChevronDown aria-hidden="true" className={selectIconClassName} />
+          </div>
         </label>
 
         <label
@@ -175,84 +185,90 @@ export default function ScriptureSelect({ value, onChange, idPrefix }: Scripture
           className="text-[10px] font-black tracking-[0.12em] uppercase"
         >
           Start verse
-          <select
-            id={`${idPrefix}-verse`}
-            value={verse}
-            disabled={!book || !chapter || loadingVerses || !verses.length}
-            onChange={(event) => {
-              const nextVerse = event.target.value;
-              setVerse(nextVerse);
-              setEndVerse("");
-              setPassage(null);
-              setError("");
+          <div className="relative mt-2">
+            <select
+              id={`${idPrefix}-verse`}
+              value={verse}
+              disabled={!book || !chapter || loadingVerses || !verses.length}
+              onChange={(event) => {
+                const nextVerse = event.target.value;
+                setVerse(nextVerse);
+                setEndVerse("");
+                setPassage(null);
+                setError("");
 
-              if (!book || !chapter || !nextVerse) {
-                onChange(null);
-                return;
-              }
+                if (!book || !chapter || !nextVerse) {
+                  onChange(null);
+                  return;
+                }
 
-              onChange({
-                versionId: NIV_BIBLE_ID,
-                version: NIV_ABBREVIATION,
-                book: book.name,
-                bookUsfm: book.usfm,
-                chapter: Number(chapter),
-                verse: Number(nextVerse),
-                endVerse: Number(nextVerse),
-              });
-            }}
-            className={selectClassName}
-          >
-            <option value="">{loadingVerses ? "Loading…" : "Select"}</option>
-            {verses.map((number) => (
-              <option key={number} value={number}>
-                {number}
-              </option>
-            ))}
-          </select>
+                onChange({
+                  versionId: NIV_BIBLE_ID,
+                  version: NIV_ABBREVIATION,
+                  book: book.name,
+                  bookUsfm: book.usfm,
+                  chapter: Number(chapter),
+                  verse: Number(nextVerse),
+                  endVerse: Number(nextVerse),
+                });
+              }}
+              className={selectClassName}
+            >
+              <option value="">{loadingVerses ? "Loading…" : "Select"}</option>
+              {verses.map((number) => (
+                <option key={number} value={number}>
+                  {number}
+                </option>
+              ))}
+            </select>
+            <ChevronDown aria-hidden="true" className={selectIconClassName} />
+          </div>
         </label>
 
         <label
           htmlFor={`${idPrefix}-end-verse`}
           className="col-span-2 text-[10px] font-black tracking-[0.12em] uppercase sm:col-span-1"
         >
-          End verse <span className="text-black/40">— optional</span>
-          <select
-            id={`${idPrefix}-end-verse`}
-            value={endVerse}
-            disabled={!book || !chapter || !verse || loadingVerses || !verses.length}
-            onChange={(event) => {
-              const nextEndVerse = event.target.value;
-              setEndVerse(nextEndVerse);
-              setPassage(null);
-              setError("");
+          End verse <span className="text-black/40 sm:hidden">— optional</span>
+          <div className="relative mt-2">
+            <select
+              id={`${idPrefix}-end-verse`}
+              value={endVerse}
+              disabled={!book || !chapter || !verse || loadingVerses || !verses.length}
+              onChange={(event) => {
+                const nextEndVerse = event.target.value;
+                setEndVerse(nextEndVerse);
+                setPassage(null);
+                setError("");
 
-              if (!book || !chapter || !verse) {
-                onChange(null);
-                return;
-              }
+                if (!book || !chapter || !verse) {
+                  onChange(null);
+                  return;
+                }
 
-              onChange({
-                versionId: NIV_BIBLE_ID,
-                version: NIV_ABBREVIATION,
-                book: book.name,
-                bookUsfm: book.usfm,
-                chapter: Number(chapter),
-                verse: Number(verse),
-                endVerse: nextEndVerse ? Number(nextEndVerse) : Number(verse),
-              });
-            }}
-            className={selectClassName}
-          >
-            <option value="">Single verse</option>
-            {verses
-              .filter((number) => number > Number(verse))
-              .map((number) => (
-                <option key={number} value={number}>
-                  {number}
-                </option>
-              ))}
-          </select>
+                onChange({
+                  versionId: NIV_BIBLE_ID,
+                  version: NIV_ABBREVIATION,
+                  book: book.name,
+                  bookUsfm: book.usfm,
+                  chapter: Number(chapter),
+                  verse: Number(verse),
+                  endVerse: nextEndVerse ? Number(nextEndVerse) : Number(verse),
+                });
+              }}
+              className={selectClassName}
+            >
+              <option value="">Single verse</option>
+              {verses
+                .filter((number) => number > Number(verse))
+                .map((number) => (
+                  <option key={number} value={number}>
+                    {number}
+                  </option>
+                ))}
+            </select>
+            <ChevronDown aria-hidden="true" className={selectIconClassName} />
+          </div>
         </label>
       </div>
 
