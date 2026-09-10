@@ -16,6 +16,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Connect form email
+
+The `/connect` form sends connection cards through the church mailbox using SMTP. Copy
+`.env.example` to `.env.local` and replace the placeholder values with the SMTP settings supplied
+by the mailbox provider. Use port `465` with `SMTP_SECURE=true`, or port `587` with
+`SMTP_SECURE=false` for STARTTLS.
+
+Add the same variables to the deployment environment. `CONNECT_FORM_FROM` must use an address the
+SMTP account is permitted to send from. Mailbox providers such as Gmail or Microsoft may require an
+app password instead of the normal account password.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

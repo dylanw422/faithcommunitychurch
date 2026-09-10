@@ -20,10 +20,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Faith Community Church",
-  description: "Sundays at 5:00 PM",
+  description: "Join Faith Community Church in Moss Bluff on Sundays at 10:00 AM.",
   openGraph: {
     title: "Faith Community Church",
-    description: "Join us every Sunday at 5:00 PM",
+    description: "Join us every Sunday at 10:00 AM",
     images: [
       {
         url: "https://fcclc.com/fcc2.webp",
@@ -45,13 +45,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SidebarProvider>
-          <AppSidebar />
-          <main className={`bg-background flex flex-col items-center w-full`}>
+        <SidebarProvider style={{ "--sidebar-width": "22rem" } as React.CSSProperties}>
+          <main className="bg-background flex min-w-0 flex-1 flex-col items-center">
             <Nav />
             <div className="w-full md:w-3/4">{children}</div>
             <Footer />
           </main>
+          <AppSidebar />
         </SidebarProvider>
         <Analytics />
       </body>
