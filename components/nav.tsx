@@ -7,7 +7,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 export default function Nav() {
   const { toggleSidebar } = useSidebar();
   return (
-    <div className="flex w-full justify-center items-center py-4 font-medium px-4 md:px-0 bg-background/80 backdrop-blur-sm md:backdrop-blur-md sticky top-0">
+    <div className="sticky top-0 z-40 flex w-full items-center justify-center bg-background/80 px-4 py-4 font-medium backdrop-blur-sm md:px-0 md:backdrop-blur-md">
       <div className="flex w-full md:w-2/3 justify-between items-center">
         <Link href="/">
           <Image src="/fcclogominimal.webp" alt="FCC Logo" width={40} height={40} priority />
