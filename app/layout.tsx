@@ -26,14 +26,21 @@ export const metadata: Metadata = {
     description: "Join us every Sunday at 10:00 AM",
     images: [
       {
-        url: "https://fcclc.com/fcc2.webp",
-        height: 500,
-        width: 500,
+        url: "https://fcclc.com/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Faith Community Church in Moss Bluff, Louisiana",
       },
     ],
     locale: "en_US",
     siteName: "Faith Community Church",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Faith Community Church",
+    description: "Join us every Sunday at 10:00 AM",
+    images: ["https://fcclc.com/opengraph-image.png"],
   },
 };
 

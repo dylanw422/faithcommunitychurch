@@ -202,7 +202,7 @@ export default function Home() {
       </section>
 
       <section className="px-4 pb-20 sm:px-8 md:pb-32">
-        <div className="border-y border-black">
+        <div className="border-b border-black">
           <div className="grid gap-10 py-10 md:grid-cols-[1fr_0.72fr] md:items-center md:gap-16 md:py-16">
             <div>
               <p className="text-xs font-black tracking-[0.2em] uppercase">Our vision</p>

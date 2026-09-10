@@ -9,18 +9,18 @@ export const metadata: Metadata = {
 
 const actions = [
   {
-    label: "Give",
-    description: "Support the work of Faith Community Church",
-    href: "https://tithe.ly/give_new/www/#/tithely/give-one-time/7549136",
-    icon: HandHeart,
-    external: true,
-  },
-  {
     label: "Connect",
     description: "Start a conversation and find your community",
     href: "/connect",
     icon: UsersRound,
     external: false,
+  },
+  {
+    label: "Give",
+    description: "Support the work of Faith Community Church",
+    href: "https://tithe.ly/give_new/www/#/tithely/give-one-time/7549136",
+    icon: HandHeart,
+    external: true,
   },
 ] as const;
 
@@ -28,7 +28,7 @@ export default function TapPage() {
   return (
     <section className="relative isolate min-h-[calc(100svh-4.5rem)] overflow-hidden bg-white px-4 py-12 sm:px-8 md:py-20">
       <div className="mx-auto flex w-full max-w-3xl flex-col">
-        <div className="mb-12 flex items-end justify-between border-b border-black pb-5 md:mb-16">
+        <div className="mb-12 flex items-end justify-between pb-5 md:mb-16">
           <div>
             <p className="text-xs font-black tracking-[0.22em] uppercase">Faith Community Church</p>
             <h1 className="mt-3 max-w-xl text-5xl font-black leading-[0.88] tracking-[-0.06em] sm:text-7xl md:text-8xl">
