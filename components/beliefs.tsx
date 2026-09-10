@@ -1,5 +1,6 @@
-"use client";
-import { motion } from "motion/react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
 const beliefs = [
   {
     title: "Inspired Scripture",
@@ -50,7 +51,7 @@ Holy Communion as a symbolic remembrance of Christ's suffering and death.`,
     scripture: `(Romans 12:1–2; 1 Thessalonians 5:23; Hebrews 12:14)`,
   },
   {
-    title: "The Church and it's Mission",
+    title: "The Church and Its Mission",
     description: `The Church is the body of Christ with a fourfold mission:
 Evangelize the world,
 Worship God,
@@ -92,28 +93,89 @@ Show compassion`,
 
 export default function Beliefs() {
   return (
-    <div className="py-12 md:py-24 px-4">
-      <h1 className="font-black text-xs md:text-xl text-center">OUR BELIEFS</h1>
-      {beliefs.map((belief, index) => {
-        return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            key={index}
-            className={`py-16 ${
-              index % 2 === 1 ? "text-end" : "text-start"
-            } border-b border-primary/10 last:border-none`}
-          >
-            <h1 className="text-3xl md:text-6xl font-semibold">{belief.title}</h1>
-            <h1 className="font-light text-sm md:text-xl mt-4">{belief.description}</h1>
-            <h1 className="font-light text-sm md:text-xl mt-4 italic text-primary/60">
-              {belief.scripture}
-            </h1>
-          </motion.div>
-        );
-      })}
+    <div className="bg-white text-black">
+      <header className="px-4 pb-16 pt-10 sm:px-8 md:pb-24 md:pt-16">
+        <div className="flex items-center justify-between border-b border-black pb-4 text-[10px] font-black tracking-[0.18em] uppercase sm:text-xs">
+          <span>Faith Community Church</span>
+          <span>Our foundation</span>
+        </div>
+
+        <h1 className="max-w-5xl py-10 text-[clamp(4rem,11vw,9rem)] font-black leading-[0.82] tracking-[-0.075em] sm:py-14">
+          What we
+          <br />
+          believe.
+        </h1>
+
+        <div className="grid gap-6 border-t border-black pt-5 md:grid-cols-[1fr_1.7fr] md:items-start">
+          <p className="text-xs font-black tracking-[0.18em] uppercase">Sixteen truths</p>
+          <p className="max-w-2xl text-lg font-medium leading-snug tracking-[-0.02em] sm:text-2xl">
+            These foundational beliefs shape our faith, our worship, and the way we live together.
+          </p>
+        </div>
+      </header>
+
+      <section className="px-4 pb-20 sm:px-8 md:pb-32" aria-labelledby="beliefs-heading">
+        <div className="grid gap-10 md:grid-cols-[1fr_3fr] md:gap-16">
+          <div>
+            <p className="text-xs font-black tracking-[0.2em] uppercase">Statement of faith</p>
+            <h2
+              id="beliefs-heading"
+              className="mt-4 text-4xl font-black leading-[0.92] tracking-[-0.05em] sm:text-5xl"
+            >
+              Rooted in
+              <br />
+              Scripture.
+            </h2>
+          </div>
+
+          <ol className="border-t border-black">
+            {beliefs.map((belief, index) => (
+              <li key={belief.title} className="border-b border-black py-8 md:py-10">
+                <article className="grid gap-5 sm:grid-cols-[2.5rem_1fr] sm:gap-6">
+                  <span
+                    className="text-xs font-black tracking-[0.16em] text-black/40"
+                    aria-hidden="true"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="text-3xl font-black leading-none tracking-[-0.04em] sm:text-4xl">
+                      {belief.title}
+                    </h3>
+                    <div className="mt-5 grid gap-4 text-sm leading-6 lg:grid-cols-[1.3fr_0.7fr] lg:gap-10">
+                      <p className="whitespace-pre-line">{belief.description}</p>
+                      <p className="italic text-black/50">{belief.scripture}</p>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="px-4 pb-20 sm:px-8 md:pb-32">
+        <Link
+          href="/connect"
+          className="group grid gap-8 bg-black px-6 py-10 text-white transition-colors hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black sm:px-10 md:grid-cols-[1fr_auto] md:items-end md:py-14"
+        >
+          <span>
+            <span className="block text-xs font-black tracking-[0.2em] text-white/60 uppercase">
+              Have a question?
+            </span>
+            <span className="mt-4 block text-5xl font-black leading-[0.9] tracking-[-0.055em] sm:text-7xl">
+              Let&apos;s talk.
+            </span>
+          </span>
+          <span className="flex items-center gap-3 text-xs font-black tracking-[0.16em] uppercase">
+            Connect with us
+            <ArrowUpRight
+              className="size-6 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+              aria-hidden="true"
+            />
+          </span>
+        </Link>
+      </section>
     </div>
   );
 }
