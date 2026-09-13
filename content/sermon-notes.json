@@ -1,37 +1,46 @@
 {
   "title": "Sunday Sermon Notes",
   "date": "2026-09-13",
-  "speaker": "Pastor Melvin Stringfield",
-  "scripture": {
-    "versionId": 111,
-    "version": "NIV",
-    "book": "Leviticus",
-    "bookUsfm": "LEV",
-    "chapter": 1,
-    "verse": 5,
-    "endVerse": 5
-  },
-  "keyIdea": "God's Glory",
+  "speaker": "Pastor Bob Floyd",
+  "scripture": null,
+  "keyIdea": "Return to the Altar",
   "introduction": "",
   "points": [
     {
       "id": "todays-message",
-      "title": "God's Creation",
+      "title": "The Call of Abram",
       "scriptures": [
         {
           "versionId": 111,
           "version": "NIV",
           "book": "Genesis",
           "bookUsfm": "GEN",
-          "chapter": 1,
+          "chapter": 12,
           "verse": 1,
-          "endVerse": 1
+          "endVerse": 9
         }
       ],
-      "content": "In the beginning...",
+      "content": "...",
+      "reflection": ""
+    },
+    {
+      "id": "point-1789307845274-29e7ab",
+      "title": "Remembering Where God Met You",
+      "scriptures": [
+        {
+          "versionId": 111,
+          "version": "NIV",
+          "book": "Genesis",
+          "bookUsfm": "GEN",
+          "chapter": 13,
+          "verse": 1,
+          "endVerse": 4
+        }
+      ],
+      "content": "...",
       "reflection": ""
     }
   ],
   "closing": "",
-  "updatedAt": "2026-09-10T02:57:45.501Z"
+  "updatedAt": "2026-09-13T14:10:49.630Z"
 }
